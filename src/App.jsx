@@ -8,7 +8,7 @@ import Header from "./components/Header";
 function App() {
   return (
     <GameProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="ces_taller2">
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />

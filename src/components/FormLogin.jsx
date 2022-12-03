@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { TfiGame } from "react-icons/tfi";
 import { useNavigate } from "react-router-dom";
 import useGame from "../hooks/useGame";
 

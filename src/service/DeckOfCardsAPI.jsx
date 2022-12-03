@@ -14,3 +14,11 @@ export const getDrawCards = async (deck_id) => {
   const data = await res.json();
   return data?.cards;
 };
+
+export const getDrawCardsByCount = async (deck_id, count) => {
+  const url = `https://www.deckofcardsapi.com/api/deck/${deck_id}/draw/?count=${count}`;
+
+  const res = await fetch(url);
+  const data = await res.json();
+  return data?.cards;
+};

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getDeckId, getDrawCards } from "../service/DeckOfCardsAPI";
+import { getDeckId, getDrawCards, getDrawCardsByCount } from "../service/DeckOfCardsAPI";
 import GameContext from "./GameContext";
 
 const GameProvider = ({ children }) => {
@@ -38,6 +38,14 @@ const GameProvider = ({ children }) => {
     }
   };
 
+  const requestCardsContinental = async () => {
+    const cardsPlayerOne = await getDrawCardsByCount(idGame, 10);
+    setPlayerOne({ ...playerOne, cards: [...playerOne.cards, ...cardsPlayerOne] });
+    
+    const cardsPlayerTwo = await getDrawCardsByCount(idGame, 10);
+    setPlayerTwo({ ...playerTwo, cards: [...playerTwo.cards, ...cardsPlayerTwo] });
+  }
+
   return (
     <GameContext.Provider
       value={{
@@ -50,6 +58,7 @@ const GameProvider = ({ children }) => {
         showToast,
         setShowToast,
         winName,
+        requestCardsContinental
       }}
     >
       {children}

@@ -13,8 +13,8 @@ function ListCards() {
             <img
               className="col-sm-1 col-lg-1 mx-2 my-2"
               key={index}
-              src={card.image}
-              alt={card.value}
+              src={card?.image}
+              alt={card?.value}
             />
           ))}
         </div>
@@ -27,8 +27,8 @@ function ListCards() {
             <img
               className="col-sm-1 col-lg-1 mx-2 my-2"
               key={index}
-              src={card.image}
-              alt={card.value}
+              src={card?.image}
+              alt={card?.value}
             />
           ))}
         </div>

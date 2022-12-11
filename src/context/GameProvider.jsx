@@ -38,8 +38,8 @@ const GameProvider = ({ children }) => {
       setTimeout(function(){
         setShowToast(false);
         setWinName("")
-      }, 3000)
-      return
+      }, 5000)
+      return true
     }
 
     const filterCardsPlayerOne = [...playerOne.cards].filter(
@@ -59,10 +59,13 @@ const GameProvider = ({ children }) => {
       ...playerTwo,
       cards: orderArray([...filterCardsPlayerTwo, cards[1]], "number"),
     });
+
+    return false;
   };
 
   const requestCardsContinental = async () => {
     const cardsPlayerOne = await getDrawCardsByCount(idGame, 10);
+    console.log(cardsPlayerOne, " --- ")
     const cardsWithNumberPlayerOne = cardsPlayerOne.map(card => ({
       ...card,
       number: assignANumberToChart(card?.code[0])

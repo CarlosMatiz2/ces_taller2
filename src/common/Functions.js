@@ -69,9 +69,9 @@ function orderArray(array, prop){
 
 function validateWhoWon(player1, player2){
   if(player1.win > player2.win){
-    return player1.name
+    return `${player1.name} you are the acclaimed winner! Congratulations`
   }else if(player1.win < player2.win){
-    return player2.name
+    return `${player2.name} you are the acclaimed winner! Congratulations`
   }else{
     return 'There is a tie!!'
   }

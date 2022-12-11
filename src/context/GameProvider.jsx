@@ -4,6 +4,7 @@ import {
   getDrawCards,
   getDrawCardsByCount,
 } from "../service/DeckOfCardsAPI";
+import { assignANumberToChart, orderArray, validateWhoWon } from "../common/Functions";
 import GameContext from "./GameContext";
 
 const GameProvider = ({ children }) => {
@@ -31,49 +32,54 @@ const GameProvider = ({ children }) => {
   const requestCards = async () => {
     const cards = await getDrawCards(idGame);
 
+    if(!cards.length){
+      setShowToast(true);
+      setWinName(validateWhoWon(playerOne, playerTwo));
+      setTimeout(function(){
+        setShowToast(false);
+        setWinName("")
+      }, 3000)
+      return
+    }
+
     const filterCardsPlayerOne = [...playerOne.cards].filter(
-      (obj) => obj.code !== playerOneCardToDelete
+      (obj) => obj?.code !== playerOneCardToDelete
     );
     setPlayerOneCardToDelete("");
     setPlayerOne({
       ...playerOne,
-      cards: [...filterCardsPlayerOne, cards[0]],
+      cards: orderArray([...filterCardsPlayerOne, cards[0]], "number"),
     });
 
     const filterCardsPlayerTwo = [...playerTwo.cards].filter(
-      (obj) => obj.code !== playerTwoCardToDelete
+      (obj) => obj?.code !== playerTwoCardToDelete
     );
     setPlayerTwoCardToDelete("");
     setPlayerTwo({
       ...playerTwo,
-      cards: [...filterCardsPlayerTwo, cards[1]],
+      cards: orderArray([...filterCardsPlayerTwo, cards[1]], "number"),
     });
-
-    // const findCardPlayerOne = playerOne.cards.find(
-    //   (card) => card.value === cards[0].value
-    // );
-
-    // const findCardPlayerTwo = playerTwo.cards.find(
-    //   (card) => card.value === cards[1].value
-    // );
-
-    // if (findCardPlayerOne || findCardPlayerTwo) {
-    //   setShowToast(true);
-    //   setWinName(findCardPlayerOne ? playerOne.name : playerTwo.name);
-    // }
   };
 
   const requestCardsContinental = async () => {
     const cardsPlayerOne = await getDrawCardsByCount(idGame, 10);
+    const cardsWithNumberPlayerOne = cardsPlayerOne.map(card => ({
+      ...card,
+      number: assignANumberToChart(card?.code[0])
+    }));
     setPlayerOne({
       ...playerOne,
-      cards: [...playerOne.cards, ...cardsPlayerOne],
+      cards: orderArray([...playerOne.cards, ...cardsWithNumberPlayerOne], "number"),
     });
 
     const cardsPlayerTwo = await getDrawCardsByCount(idGame, 10);
+    const cardsWithNumberPlayerTwo = cardsPlayerTwo.map(card => ({
+      ...card,
+      number: assignANumberToChart(card?.code[0])
+    }));
     setPlayerTwo({
       ...playerTwo,
-      cards: [...playerTwo.cards, ...cardsPlayerTwo],
+      cards: orderArray([...playerTwo.cards, ...cardsWithNumberPlayerTwo], "number")
     });
   };
 
@@ -89,6 +95,7 @@ const GameProvider = ({ children }) => {
         showToast,
         setShowToast,
         winName,
+        setWinName,
         requestCardsContinental,
         setPlayerOneCardToDelete,
         setPlayerTwoCardToDelete,

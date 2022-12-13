@@ -34,19 +34,22 @@ function noDuplicates(collection = []) {
 }
 
 function validateScaled(data = []) {
-  let scaled = false;
+  let countScaled = 1;
   for (const prop in data) {
     const nextNumber = data[parseInt(prop) + 1];
-    if (nextNumber > parseInt(data[prop])) {
-      scaled = true;
+    if(countScaled >= 3){
+      return countScaled >= 3
+    }
+    if (parseInt(nextNumber) === parseInt(parseInt(data[prop]) + 1)) {
+      countScaled++;
     } else if (!nextNumber) {
-      return scaled;
+      return countScaled >= 3;
     }
     else {
-      scaled = false;
+      countScaled = 1;
     }
   }
-  return scaled
+  return countScaled >= 3
 }
 
 function validateStepsTaken(array, cards) {

@@ -65,7 +65,6 @@ const GameProvider = ({ children }) => {
 
   const requestCardsContinental = async () => {
     const cardsPlayerOne = await getDrawCardsByCount(idGame, 10);
-    console.log(cardsPlayerOne, " --- ")
     const cardsWithNumberPlayerOne = cardsPlayerOne.map(card => ({
       ...card,
       number: assignANumberToChart(card?.code[0])

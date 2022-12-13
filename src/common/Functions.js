@@ -54,12 +54,14 @@ function validateScaled(data = []) {
 
 function validateStepsTaken(array, cards) {
   try {
+    let points = 0;
     const ternasPlayerOne = array.filter((groupBy) => groupBy.length === 3);
     const cuartaPlayerOne = array.filter((groupBy) => groupBy.length === 4);
     const numberInOrder = cards.map((x) => x?.number).sort((x, y) => parseInt(x) - parseInt(y));
     const numberNoDuplicates = noDuplicates(numberInOrder);
-    const scaled = validateScaled(numberNoDuplicates);
-    return [ternasPlayerOne.length > 0, cuartaPlayerOne.length > 0, scaled].filter(x => (x === true)).length;
+    const scaled = validateScaled(numberNoDuplicates) ? 1 : 0;
+    points = ternasPlayerOne.length + cuartaPlayerOne.length + scaled;
+    return points
   } catch (error) {
     console.error(error);
   }
